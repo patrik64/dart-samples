@@ -1,4 +1,4 @@
-ass NodeT<Key, Value>
+class NodeT<Key, Value>
 {
   Key m_key;
   Value m_val;

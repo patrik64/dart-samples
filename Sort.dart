@@ -1,4 +1,4 @@
-ass Sort {
+class Sort {
 
   Sort() {
   }

@@ -1,4 +1,4 @@
-ass Graph {
+class Graph {
 
   int m_V; //number of vertices in the graph
   int m_E; //number of edges in the graph

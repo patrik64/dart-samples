@@ -1,4 +1,4 @@
-ass MaxPQ<T extends Comparable> {
+class MaxPQ<T extends Comparable> {
   List<T> m_pq;
   int m_N = 0;
   

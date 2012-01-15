@@ -1,4 +1,6 @@
-ass Digraph
+//NFA GREP
+
+class Digraph
 {
   int m_V;
   int m_E;
@@ -167,4 +169,3 @@ void main() {
   else
     print("No match!");
 }
-

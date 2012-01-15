@@ -1,4 +1,4 @@
-ass NodeT<Key extends Comparable, Value> {
+class NodeT<Key extends Comparable, Value> {
   Key m_key;
   Value m_val;
   NodeT<Key, Value> m_left;
