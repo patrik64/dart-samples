@@ -1,4 +1,7 @@
-ng> ops = new Queue<String>();
+//eval - Dijkstra double stack
+
+void main() {
+  Queue<String> ops = new Queue<String>();
   Queue<double> vals = new Queue<double>();
   String str = "(1 + ( ( 5 * 6 ) + ( 2 * 4) ) )";
   for(int i = 0; i < str.length; i++) {
