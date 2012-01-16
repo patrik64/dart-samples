@@ -117,6 +117,9 @@ class NFA {
         m_g.addEdge(lp, i+1);
         m_g.addEdge(i+1, lp);
       }
+       if( i < (m_M - 1) && m_regexp[i+1] == '*') {
+        m_g.addEdge(i+1, lp);
+      }
       if(m_regexp[i] == '(' || 
          m_regexp[i] == '*' || 
          m_regexp[i] == '+' || 
