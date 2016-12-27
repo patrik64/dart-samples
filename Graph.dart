@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class Graph {
 
   int m_V; //number of vertices in the graph
@@ -16,7 +18,8 @@ class Graph {
   int degree(int v)
   {
     int d = 0;
-    for ( int w in adj(v)) 
+    var w = adj(v).iterator;
+    while(w.moveNext())
       d++;
     return d;
   }
@@ -129,7 +132,7 @@ class BreadthFirstPaths
     Queue<int> queue = new Queue<int>();
     this.m_marked[s] = true;
     queue.add(s);
-    while(!queue.isEmpty()){
+    while(!queue.isEmpty){
       int v = queue.removeFirst();
       for (int w in g.adj(v)){
         if( w != null ){ 
@@ -245,4 +248,3 @@ void main() {
     print("bipartite : false");
   print("end");
 }
-
