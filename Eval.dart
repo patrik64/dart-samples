@@ -1,5 +1,7 @@
 //eval - Dijkstra double stack
 
+import 'dart:collection';
+
 void main() {
   Queue<String> ops = new Queue<String>();
   Queue<double> vals = new Queue<double>();
@@ -21,7 +23,7 @@ void main() {
       vals.add(v);
     }
     else
-      vals.add(s.charCodeAt(0) - 48);
+      vals.add((s.codeUnitAt(0) - 48).toDouble());
   }
   str += " = " + vals.removeLast().toString();
   print(str);
