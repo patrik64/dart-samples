@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Sort {
 
   Sort() {
@@ -43,7 +45,6 @@ class Sort {
     a.add(1);
     a.add(1);
     
-    //print("Unsorted : ");
     print(showList(a));
 
     Stopwatch w = new Stopwatch();
@@ -51,10 +52,9 @@ class Sort {
     w.start();
     sort(a);
     w.stop();
-    int nTime = w.elapsedInMs();
-    //print("Sorted : ");
+    int nTime = w.elapsedMilliseconds;
     print(showList(a));
-    print("Time : ${nTime.toString()}");
+    print("Time : ${nTime.toString()} ms");
   }
 }
 
@@ -129,7 +129,7 @@ class MergeSort extends Sort{
 
   void mergesort(List<int> a, int lo, int hi){
     if(hi <= lo) return;
-    int mid = lo + ((hi - lo)/2).toInt();
+    int mid = lo + ((hi - lo)~/2);
     mergesort(a, lo, mid);
     mergesort(a, mid+1, hi);
     merge(a, lo, mid, hi);
@@ -162,7 +162,7 @@ class MergeSortBottomUp extends Sort{
     m_aux = new List<int>(a.length);
     for(int sz = 1; sz < n; sz = sz + sz)
       for(int lo = 0; lo < (n - sz); lo = lo + sz + sz)
-        merge(a, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, n - 1));
+        merge(a, lo, lo + sz - 1, min(lo + sz + sz - 1, n - 1));
   }
 
   void merge(List<int> a, int lo, int mid, int hi){
@@ -214,7 +214,7 @@ class ShellSort extends Sort {
   void sort(List<int> a){
     int n = a.length;
     int h = 1;
-    while(h < (n/3).toInt())
+    while(h < (n~/3))
       h = 3*h + 1;
 
     while(h >= 1)
@@ -223,7 +223,7 @@ class ShellSort extends Sort {
         for(int j = i; j >= h && less(a[j], a[j-h]); j = j - h)
           exch(a, j, j-h);
 
-      h = (h/3).toInt();
+      h = h~/3;
     }
   }
 }
@@ -251,4 +251,3 @@ void main() {
   print("ShellSort");
   new ShellSort().run();
 }
-
