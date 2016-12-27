@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class Digraph
 {
   int m_V;
@@ -52,7 +54,7 @@ class DirectedDFS
 
   DirectedDFS(Digraph g, int s){
     m_marked = new List<bool>(g.m_V);
-    m_marked.forEach(f(e) => e = true);
+    m_marked.forEach((e) => e = true);
     dfs(g, s);
   }
 
@@ -85,12 +87,12 @@ class DirectedCycle
 
   DirectedCycle(Digraph g){
     this.m_onStack = new List<bool>(g.m_V);
-    this.m_onStack.forEach(f(e) => e = false);
+    this.m_onStack.forEach((e) => e = false);
     this.m_marked = new List<bool>(g.m_V);
-    this.m_marked.forEach(f(e) => e = false);
-    this.m_onStack.forEach(f(e) => e = false);
+    this.m_marked.forEach((e) => e = false);
+    this.m_onStack.forEach((e) => e = false);
     this.m_edgeTo = new List<int>(g.m_V);
-    this.m_edgeTo.forEach(f(e) => e = -1);
+    this.m_edgeTo.forEach((e) => e = -1);
     this.m_cycle = new Queue<int>();
     for(int v = 0; v < g.m_V; v++){
       if(!this.m_marked[v])
@@ -123,7 +125,7 @@ class DirectedCycle
   void print_cycles(){
     String str = "Cycles : ";
     if(this.hasCycle()){
-      while(!this.m_cycle.isEmpty()){
+      while(!this.m_cycle.isEmpty){
         int i = this.m_cycle.removeLast();
         str += "${i.toString()} - ";
       }
@@ -204,7 +206,7 @@ class DirectedBreadthFirstPaths
     Queue<int> queue = new Queue<int>();
     this.m_marked[s] = true;
     queue.add(s);
-    while(!queue.isEmpty()){
+    while(!queue.isEmpty){
       int v = queue.removeFirst();
       for (int w in g.adj(v)){
         if( w != null ){ 
@@ -258,7 +260,7 @@ class DepthFirstOrder
     m_post = new Queue<int>();
     m_reversePost = new Queue<int>();
     m_marked = new List<bool>(g.m_V);
-    this.m_marked.forEach(f(e) => e = false);
+    this.m_marked.forEach((e) => e = false);
     
     for(int v = 0; v < g.m_V; v++){
       if(!m_marked[v])
@@ -279,21 +281,21 @@ class DepthFirstOrder
   
   void print_order(){
     String str = "Pre : ";
-    while(!m_pre.isEmpty()){
+    while(!m_pre.isEmpty){
       int i = m_pre.removeFirst();
       str += "${i.toString()} ";
     }
     print(str);
     
     str = "Post : ";
-    while(!m_post.isEmpty()){
+    while(!m_post.isEmpty){
       int i = m_post.removeFirst();
       str += "${i.toString()} ";
     }
     print(str);
     
     str = "PostReverse : ";
-    while(!m_reversePost.isEmpty()){
+    while(!m_reversePost.isEmpty){
       int i = m_reversePost.removeLast();
       str += "${i.toString()} ";
     }
