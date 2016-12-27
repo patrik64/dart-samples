@@ -1,5 +1,7 @@
 //NFA GREP
 
+import 'dart:collection';
+
 class Digraph
 {
   int m_V;
@@ -54,7 +56,7 @@ class DirectedDFS
 
   DirectedDFS(Digraph g, int s){
     m_marked = new List<bool>(g.m_V);
-    m_marked.forEach(f(e) => e = true);
+    m_marked.forEach((e) => e = true);
     dfs(g, s);
   }
 
