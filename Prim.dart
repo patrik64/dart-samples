@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class MaxPQ<T extends Comparable> {
   List<T> m_pq;
   int m_N = 0;
@@ -35,9 +37,9 @@ class MaxPQ<T extends Comparable> {
   }
   
   void swim(int k) {
-    while(k > 1 && less((k/2).toInt(), k)) {
-      exch((k/2).toInt(), k);
-      k = (k/2).toInt();
+    while(k > 1 && less((k~/2), k)) {
+      exch((k~/2), k);
+      k = k~/2;
     } 
   }
   
@@ -91,9 +93,9 @@ class MinPQ<T extends Comparable> {
   }
   
   void swim(int k) {
-    while(k > 1 && !less((k/2).toInt(), k)) {
-      exch((k/2).toInt(), k);
-      k = (k/2).toInt();
+    while(k > 1 && !less((k~/2), k)) {
+      exch((k~/2), k);
+      k = k~/2;
     } 
   }
   
@@ -167,9 +169,9 @@ class IndexMinPQ<T extends Comparable> {
   }
   
   void swim(int k) {
-    while(k > 1 && greater((k/2).toInt(), k)) {
-      exch((k/2).toInt(), k);
-      k = (k/2).toInt();
+    while(k > 1 && greater((k~/2), k)) {
+      exch((k~/2), k);
+      k = k~/2;
     } 
   }
   
@@ -274,7 +276,7 @@ class PrimMST
   PrimMST(WeightedGraph g){
     m_pq = new MinPQ<Edge>(100);
     m_marked = new List<bool>(g.m_V);
-    m_marked.forEach(f(e) => e = false);
+    m_marked.forEach((e) => e = false);
     m_mst = new Queue<Edge>();
     
     visit(g, 0);
@@ -409,4 +411,3 @@ void main() {
   else
     print("no path from ${from.toString()} to ${to.toString()}");
 }
-
