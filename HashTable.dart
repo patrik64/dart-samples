@@ -53,7 +53,7 @@ class HashTableSC<Key extends Comparable, Value>
   }
     
   int hash(Key key) {
-    int ret = key.hashCode() % this.m_M;
+    int ret = key.hashCode % this.m_M;
     return ret;
   }
   
@@ -103,11 +103,11 @@ class HashTableLP<Key extends Comparable, Value>
   }
   
   int hash(Key key){
-    return key.hashCode() % this.m_M;
+    return key.hashCode % this.m_M;
   }
   
   void put(Key key, Value val){
-    if(m_N >= (m_M/2).toInt())
+    if(m_N >= (m_M~/2))
       resize(2*m_M);
     
     int i = hash(key);
@@ -149,8 +149,8 @@ class HashTableLP<Key extends Comparable, Value>
       i = (i+1) % m_M;
     }
     m_N--;
-    if((m_N > 0) && (m_N <= (m_M/8).toInt()))
-      resize((m_M/2).toInt());
+    if((m_N > 0) && (m_N <= (m_M~/8)))
+      resize(m_M~/2);
   }
   
   void resize(int cap){
@@ -232,4 +232,3 @@ void main() {
   print("\after delete:\n");  
   ht.print_hashtable();
 }
-
