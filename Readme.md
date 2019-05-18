@@ -9,3 +9,4 @@ you can also try them online:
 - Eval - https://dartpad.dartlang.org/orange-brook-6955
 - Graph - https://dartpad.dartlang.org/empty-sky-6819
 - HashTable - https://dartpad.dartlang.org/cool-rain-6382
+- NFA - https://dartpad.dartlang.org/soft-dream-1424
