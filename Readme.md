@@ -4,7 +4,7 @@ adapted from the code found in Robert Sedgewick Algorithm book (ISBN: 032157351X
 
 you can also try them online:
 
-- BST - https://dartpad.dartlang.org/31d7bd9adf7915c0c5881181e9c0a920
+- BST - https://dartpad.dartlang.org/9be80e9af09bc718ea88e0f707e4ab91
 - Digraph - https://dartpad.dartlang.org/5344ee4c113ae66c28c69fb90a9f02c8
 - Eval - https://dartpad.dartlang.org/e0492559f66fd5645283535f47e21641
 - Graph - https://dartpad.dartlang.org/46231500bbd2f0498ef674ab465c70d3
