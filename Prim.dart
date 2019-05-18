@@ -209,10 +209,11 @@ class Edge implements Comparable
     if(vertex == m_w) return m_v;
     throw new Exception('the edge doesnt contain vertex ${vertex}!');
   }
-  
-  int compareTo(Edge that){
-    if(this.m_weight < that.m_weight) return -1;
-    if(this.m_weight > that.m_weight) return 1;
+
+  int compareTo(dynamic that){
+    Edge t = that as Edge;
+    if(this.m_weight < t.m_weight) return -1;
+    if(this.m_weight > t.m_weight) return 1;
     return 0;
   }
   
@@ -275,7 +276,7 @@ class PrimMST
   
   PrimMST(WeightedGraph g){
     m_pq = new MinPQ<Edge>(100);
-    m_marked = new List<bool>(g.m_V);
+    m_marked = new List<bool>.filled(g.m_V, false);
     m_marked.forEach((e) => e = false);
     m_mst = new Queue<Edge>();
     
