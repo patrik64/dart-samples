@@ -55,15 +55,15 @@ class DirectedDFS
   List<bool> m_marked;
 
   DirectedDFS(Digraph g, int s){
-    m_marked = new List<bool>(g.m_V);
+    m_marked = new List<bool>.filled(g.m_V, false);
     m_marked.forEach((e) => e = true);
     dfs(g, s);
   }
 
   DirectedDFS.a(Digraph g, List<int> sources) {
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_marked.forEach((e) => e = false);
-    for(int s in sources) 
+    for(int s in sources)
       if(!this.m_marked[s])
         dfs(g, s);
   }
@@ -110,7 +110,7 @@ class NFA {
         }
         else if (m_regexp[or] == '(')
           lp = or;
-        else 
+        else
           throw new Exception("shouldnt came here!!!");
       }
 
@@ -122,8 +122,8 @@ class NFA {
       if( i < (m_M - 1) && m_regexp[i+1] == '+') {
         m_g.addEdge(i+1, lp);
       }
-      if(m_regexp[i] == '(' || 
-         m_regexp[i] == '*' || 
+      if(m_regexp[i] == '(' ||
+         m_regexp[i] == '*' ||
          m_regexp[i] == '+' || 
          m_regexp[i] == ')')
         m_g.addEdge(i, i+1);
