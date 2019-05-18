@@ -88,7 +88,7 @@ class DirectedCycle
   DirectedCycle(Digraph g){
     this.m_onStack = new List<bool>(g.m_V);
     this.m_onStack.forEach((e) => e = false);
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_marked.forEach((e) => e = false);
     this.m_onStack.forEach((e) => e = false);
     this.m_edgeTo = new List<int>(g.m_V);
@@ -197,7 +197,7 @@ class DirectedBreadthFirstPaths
   int m_source;
 
   DirectedBreadthFirstPaths(Digraph g, this.m_source){
-    this.m_marked = new List<bool>.fillde(g.m_V, false);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_edgeTo = new List<int>(g.m_V);  
     bfs(g, m_source);
   }
