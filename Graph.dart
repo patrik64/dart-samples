@@ -84,7 +84,7 @@ class DepthFirstPaths
   int m_sourceV;
 
   DepthFirstPaths(Graph g, this.m_sourceV){
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_edgeTo = new List<int>(g.m_V);  
     dfs(g, this.m_sourceV);
   }
@@ -123,7 +123,7 @@ class BreadthFirstPaths
   int m_sourceV;
 
   BreadthFirstPaths(Graph g, this.m_sourceV){
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_edgeTo = new List<int>(g.m_V);  
     bfs(g, this.m_sourceV);
   }
@@ -169,7 +169,7 @@ class Bipartite
   
   Bipartite(Graph g)
   {
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_color = new List<bool>(g.m_V);
     for(int b = 0; b < g.m_V; b++){
       this.m_color[b] = true;
