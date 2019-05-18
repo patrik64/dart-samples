@@ -53,7 +53,7 @@ class DirectedDFS
   List<bool> m_marked;
 
   DirectedDFS(Digraph g, int s){
-    m_marked = new List<bool>(g.m_V);
+    m_marked = new List<bool>.filled(g.m_V, false);
     m_marked.forEach((e) => e = true);
     dfs(g, s);
   }
@@ -145,7 +145,7 @@ class DirectedDepthFirstPaths
   int m_source;       //source vertex
 
   DirectedDepthFirstPaths(Digraph g, this.m_source){
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.filled(g.m_V, false);
     this.m_edgeTo = new List<int>(g.m_V);  
     dfs(g, this.m_source);
   }
@@ -197,7 +197,7 @@ class DirectedBreadthFirstPaths
   int m_source;
 
   DirectedBreadthFirstPaths(Digraph g, this.m_source){
-    this.m_marked = new List<bool>(g.m_V);
+    this.m_marked = new List<bool>.fillde(g.m_V, false);
     this.m_edgeTo = new List<int>(g.m_V);  
     bfs(g, m_source);
   }
@@ -259,7 +259,7 @@ class DepthFirstOrder
     m_pre = new Queue<int>();
     m_post = new Queue<int>();
     m_reversePost = new Queue<int>();
-    m_marked = new List<bool>(g.m_V);
+    m_marked = new List<bool>.filled(g.m_V, false);
     this.m_marked.forEach((e) => e = false);
     
     for(int v = 0; v < g.m_V; v++){
