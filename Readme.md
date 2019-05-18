@@ -4,9 +4,11 @@ adapted from the code found in Robert Sedgewick Algorithm book (ISBN: 032157351X
 
 you can also try them online:
 
-- BST - https://dartpad.dartlang.org/tight-dew-9790
-- Digraph - https://dartpad.dartlang.org/super-bread-1832
-- Eval - https://dartpad.dartlang.org/orange-brook-6955
-- Graph - https://dartpad.dartlang.org/empty-sky-6819
-- HashTable - https://dartpad.dartlang.org/cool-rain-6382
-- NFA - https://dartpad.dartlang.org/soft-dream-1424
+- BST - https://dartpad.dartlang.org/31d7bd9adf7915c0c5881181e9c0a920
+- Digraph - https://dartpad.dartlang.org/5344ee4c113ae66c28c69fb90a9f02c8
+- Eval - https://dartpad.dartlang.org/e0492559f66fd5645283535f47e21641
+- Graph - https://dartpad.dartlang.org/46231500bbd2f0498ef674ab465c70d3
+- HashTable - https://dartpad.dartlang.org/1d24f2d970bf5b7c787e20aaeba47ded
+- NFA - https://dartpad.dartlang.org/a9fd5d6c2743a1aba683467773d27a9c
+- Prim - https://dartpad.dartlang.org/7f2753214071d61a8f4e8229d266b445
+- Sort - https://dartpad.dartlang.org/d8c4a5ee123cfbddfc04f4ed6239a54f
