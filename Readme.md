@@ -8,7 +8,7 @@ you can also try them online:
 - Digraph - https://dartpad.dev/4bdd7098c9cd271e53320d30102c221c
 - Eval - https://dartpad.dev/e46c9c559bce6b8cee012ce31cd7921b
 - Graph - https://dartpad.dartlang.org/25a414dc0674c892a32b85637e0248fb
-- HashTable - https://dartpad.dartlang.org/b19b0fe536b3dc5f8b85a1394b0950b8
+- HashTable - https://dartpad.dev/?b19b0fe536b3dc5f8b85a1394b0950b8
 - NFA - https://dartpad.dartlang.org/43c20be7936f2f31f15ec3da4e84377f
 - Prim - https://dartpad.dartlang.org/9d08e279b7dbf85f2356967da1b6b050
 - RedBlack - https://dartpad.dev/8932075c98cbd4cb3608c8b4e3eaf9c3
