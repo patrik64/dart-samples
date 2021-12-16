@@ -11,5 +11,5 @@ you can also try them online:
 - HashTable - https://dartpad.dartlang.org/b19b0fe536b3dc5f8b85a1394b0950b8
 - NFA - https://dartpad.dartlang.org/43c20be7936f2f31f15ec3da4e84377f
 - Prim - https://dartpad.dartlang.org/9d08e279b7dbf85f2356967da1b6b050
-- RedBlack - https://dartpad.dartlang.org/34950cff559a817b0fdc64b2fa727b98
+- RedBlack - https://dartpad.dev/?id=8932075c98cbd4cb3608c8b4e3eaf9c3
 - Sort - https://dartpad.dev/?id=0a693b701a32f03b132dcb1d0c92e2a5
