@@ -1,90 +1,89 @@
 class NodeT<Key extends Comparable, Value> {
-  Key m_key;
-  Value m_val;
-  NodeT<Key, Value> m_left, m_right;
-  int m_N;
+  Key mkey;
+  Value mval;
+  NodeT<Key, Value>? mleft, mright;
+  int mN;
 
-  NodeT(this.m_key, this.m_val, this.m_N) {}
+  NodeT(this.mkey, this.mval, this.mN);
 
-  String toString() => "${m_key} : ${m_val}";
+  @override String toString() => "$mkey : $mval";
 }
 
 class BST<Key extends Comparable, Value> {
-  NodeT<Key, Value> m_root;
+  NodeT<Key, Value>? mroot;
   
   int size(){
-    return sizeNode(m_root);
+    return sizeNode(mroot);
   }
 
-  int sizeNode(NodeT<Key, Value> x) {
-    if(x == null) 
-      return 0; 
-    else
-      return x.m_N;
+  int sizeNode(NodeT<Key, Value>? x) {
+    if(x != null) {
+      return x.mN;
+    }
+    return 0;
   }
 
-  Value fetch(Key key) => fetchNode(m_root, key);
+  Value fetch(Key key) => fetchNode(mroot, key);
 
-  Value fetchNode(NodeT<Key, Value> x, Key key) {
-    if(x == null)
-      return null;
-    int cmp = key.compareTo(x.m_key);
-    if(cmp < 0) 
-      return fetchNode(x.m_left, key);
-    else if(cmp > 0)
-      return fetchNode(x.m_right, key);
-    else 
-      return x.m_val;
+  Value fetchNode(NodeT<Key, Value>? x, Key key) {
+    if(x != null) {
+      int cmp = key.compareTo(x.mkey);
+      if(cmp < 0){ 
+        return fetchNode(x.mleft, key);
+      } else if(cmp > 0) {
+        return fetchNode(x.mright, key);
+      } else {
+        return x.mval;
+      }
+    }
+    return null as Value;
   }
 
   void put(Key key, Value val){
-    this.m_root = putNode(m_root, key, val);
+    mroot = putNode(mroot, key, val);
   }
 
-  NodeT<Key, Value> putNode(NodeT<Key, Value> x, Key key, Value val) {
-    if(x == null) 
-      return new NodeT<Key, Value>(key, val, 1);
+  NodeT<Key, Value> putNode(NodeT<Key, Value>? x, Key key, Value val) {
+    if(x == null) {
+      return NodeT<Key, Value>(key, val, 1);
+    }
 
-    int cmp = key.compareTo(x.m_key);
-    if(cmp < 0) 
-      x.m_left = putNode(x.m_left, key, val);
-    else if(cmp > 0)
-      x.m_right = putNode(x.m_right, key, val);
-    else
-      x.m_val = val;
+    int cmp = key.compareTo(x.mkey);
+    if(cmp < 0) {
+      x.mleft = putNode(x.mleft, key, val);
+    }
+    else if(cmp > 0) {
+      x.mright = putNode(x.mright, key, val);
+    } else {
+      x.mval = val;
+    }
 
-    x.m_N = sizeNode(x.m_left) + sizeNode(x.m_right) + 1;
+    x.mN = sizeNode(x.mleft) + sizeNode(x.mright) + 1;
     return x;
   }
   
-  void print_bst() { 
-    print_bstNode(m_root);
+  void printbst() { 
+    printbstNode(mroot);
   }
     
-  void print_bstNode(NodeT<Key, Value> x) {
+  void printbstNode(NodeT<Key, Value>? x) {
     if(x != null) {
       print(x.toString());
       
-      if(x.m_left != null)
-        print(x.m_left.toString());
-      else
-        print("null");
+      print(x.mleft.toString());
+            
+      print(x.mright.toString());
       
-      if(x.m_right != null)
-        print(x.m_right.toString());
-      else
-        print("null");
-
       print("----");
-      print_bstNode(x.m_left);
-      print_bstNode(x.m_right);
+      printbstNode(x.mleft);
+      printbstNode(x.mright);
     } 
   }
 }
 
 void main() {
 
-  BST<String, int> bst = new BST<String, int>();
+  BST<String, int> bst = BST<String, int>();
   bst.put("d", 3);
   bst.put("b", 1);
   bst.put("f", 5);
@@ -93,6 +92,5 @@ void main() {
   bst.put("e", 4);
   bst.put("g", 6);
 
-  bst.print_bst();
+  bst.printbst();
 }
-

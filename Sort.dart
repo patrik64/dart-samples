@@ -2,18 +2,18 @@ import 'dart:math';
 
 class Sort {
 
-  Sort() {
-  }
+  Sort();
    
-  void sort(List<int> a) { 
-  }
+  void sort(List<int> a) {}
     
   bool less(Comparable v, Comparable w) { 
     return v.compareTo(w) < 0;
   }
   
   void exch(List<int> a, int i, int j) { 
-    Comparable t = a[i]; a[i] = a[j]; a[j] = t; 
+    int t = a[i]; 
+    a[i] = a[j]; 
+    a[j] = t; 
   }
   
   String showList(List<int> a) 
@@ -29,15 +29,16 @@ class Sort {
   }
   
   void run() {
-    List<int> a = new List<int>();
+    List<int> a = [];
     a.add(5);
     a.add(2);
     a.add(1);
     a.add(4);
     a.add(3);
     
-    for(int i = 1; i < 20; i++)
+    for(int i = 1; i < 20; i++) {
       a.add(i);
+    }
     
     a.add(3);
     a.add(3);
@@ -47,7 +48,7 @@ class Sort {
     
     print(showList(a));
 
-    Stopwatch w = new Stopwatch();
+    Stopwatch w = Stopwatch();
     w.reset();
     w.start();
     sort(a);
@@ -60,7 +61,7 @@ class Sort {
 
 class QuickSort extends Sort{
   
-  void sort(List<int> a) {
+  @override void sort(List<int> a) {
     quicksort(a, 0, a.length - 1);
   }
   
@@ -71,20 +72,22 @@ class QuickSort extends Sort{
     quicksort(a, j+1, hi);  // Sort right part a[j+1 .. hi].
   }
   
-  partition(List<int> a, int lo, int hi) { 
+  int partition(List<int> a, int lo, int hi) { 
     int i = lo, j = hi+1; // left and right scan indices 
     Comparable v = a[lo];  
     // partitioning item 
     while (true) { 
       // Scan right, scan left, check for scan complete, and exchange.
-      while (less(a[++i], v)) 
-        if (i == hi) 
+      while (less(a[++i], v)) {
+        if (i == hi) {
           break; 
-      while (less(v, a[--j])) 
-        if (j == lo) 
-          break; 
-      if (i >= j) 
-        break; 
+        }
+      }
+      while (less(v, a[--j])) {
+        if (j == lo) { break; }
+      }
+      if (i >= j) { break; }
+      
       exch(a, i, j);
     } 
     exch(a, lo, j); 
@@ -94,7 +97,7 @@ class QuickSort extends Sort{
 
 class QuickSort3 extends Sort{
   
-  void sort(List<int> a) {
+  @override void sort(List<int> a) {
     quicksort(a, 0, a.length - 1);
   }
   
@@ -107,12 +110,13 @@ class QuickSort3 extends Sort{
     while( i <= gt )
     {
       int cmp = a[i].compareTo(v);
-      if(cmp < 0) 
+      if(cmp < 0) {
         exch(a, lt++, i++);
-      else if(cmp > 0) 
+      } else if(cmp > 0) {
         exch(a, i, gt--);
-      else
+      } else {
         i++;
+      }
     }
     quicksort(a, lo, lt - 1);
     quicksort(a, gt + 1, hi);
@@ -120,10 +124,10 @@ class QuickSort3 extends Sort{
 }
 
 class MergeSort extends Sort{
-  List<int> m_aux;
+  List<int> maux = [];
   
-  void sort(List<int> a){
-    m_aux = new List<int>(a.length);
+  @override void sort(List<int> a){
+    maux = List<int>.filled(a.length, 0);
     mergesort(a, 0, a.length - 1);
   }
 
@@ -138,61 +142,67 @@ class MergeSort extends Sort{
    void merge(List<int> a, int lo, int mid, int hi){
     int i = lo;
     int j = mid+1;
-    for(int k = lo; k <=hi; k++)
-      m_aux[k] = a[k];
+    for(int k = lo; k <=hi; k++){
+      maux[k] = a[k];
+    }
 
     for(int k = lo; k <= hi; k++){
-      if(i > mid) 
-        a[k] = m_aux[j++];
-      else if(j > hi)
-        a[k] = m_aux[i++];
-      else if(less(m_aux[j], m_aux[i]))
-        a[k] = m_aux[j++];
-      else
-        a[k] = m_aux[i++];
+      if(i > mid) {
+        a[k] = maux[j++];
+      } else if(j > hi) {
+        a[k] = maux[i++];
+      } else if(less(maux[j], maux[i])) {
+        a[k] = maux[j++];
+      } else {
+        a[k] = maux[i++];
+      }
     }
   }
 }
 
 class MergeSortBottomUp extends Sort{
-  List<int> m_aux;
+  List<int> maux = [];
   
-  void sort(List<int> a){
+  @override void sort(List<int> a){
     int n = a.length;
-    m_aux = new List<int>(a.length);
-    for(int sz = 1; sz < n; sz = sz + sz)
-      for(int lo = 0; lo < (n - sz); lo = lo + sz + sz)
+    maux = List<int>.filled(a.length,0);
+    for(int sz = 1; sz < n; sz = sz + sz) {
+      for(int lo = 0; lo < (n - sz); lo = lo + sz + sz) {
         merge(a, lo, lo + sz - 1, min(lo + sz + sz - 1, n - 1));
+      }
+    }
   }
 
   void merge(List<int> a, int lo, int mid, int hi){
     int i = lo;
     int j = mid+1;
-    for(int k = lo; k <=hi; k++)
-      m_aux[k] = a[k];
+    for(int k = lo; k <=hi; k++) {
+      maux[k] = a[k];
+    }
 
     for(int k = lo; k <= hi; k++){
-      if(i > mid) 
-        a[k] = m_aux[j++];
-      else if(j > hi)
-        a[k] = m_aux[i++];
-      else if(less(m_aux[j], m_aux[i]))
-        a[k] = m_aux[j++];
-      else
-        a[k] = m_aux[i++];
+      if(i > mid) {
+        a[k] = maux[j++];
+      } else if(j > hi) {
+        a[k] = maux[i++];
+      } else if(less(maux[j], maux[i])) {
+        a[k] = maux[j++];
+      } else {
+        a[k] = maux[i++];
+      }
     }
   }
 }
 
 class SelectionSort extends Sort {
   
-  void sort(List<int> a){
+  @override void sort(List<int> a){
     int n = a.length;
     for(int i = 0; i < n; i++){
       int nMin = i;
-      for(int j = i + 1; j < n; j++)
-        if(less(a[j], a[nMin]))
-          nMin = j;
+      for(int j = i + 1; j < n; j++) {
+        if(less(a[j], a[nMin])) { nMin = j; }
+      }
       exch(a, i, nMin);  
     }
   }
@@ -200,29 +210,32 @@ class SelectionSort extends Sort {
 
 class InsertionSort extends Sort {
   
-  void sort(List<int> a){
+  @override void sort(List<int> a){
     int n = a.length;
     for(int i = 0; i < n; i++){
-      for(int j = i; j > 0 && less(a[j], a[j-1]); j--)
-        exch(a, j, j-1);  
+      for(int j = i; j > 0 && less(a[j], a[j-1]); j--) {
+        exch(a, j, j-1);
+      }
     }
   }
 }
 
 class ShellSort extends Sort {
   
-  void sort(List<int> a){
+  @override void sort(List<int> a){
     int n = a.length;
     int h = 1;
-    while(h < (n~/3))
+    while(h < (n~/3)) {
       h = 3*h + 1;
+    }
 
     while(h >= 1)
     {
-      for(int i = h; i < n; i++)
-        for(int j = i; j >= h && less(a[j], a[j-h]); j = j - h)
+      for(int i = h; i < n; i++) {
+        for(int j = i; j >= h && less(a[j], a[j-h]); j = j - h) {
           exch(a, j, j-h);
-
+        }
+      }
       h = h~/3;
     }
   }
@@ -231,23 +244,23 @@ class ShellSort extends Sort {
 
 void main() {
   print("Quicksort");
-  new QuickSort().run();
+  QuickSort().run();
   print("---------------------");
   print("Quicksort 3-way");
-  new QuickSort3().run();
+  QuickSort3().run();
   print("---------------------");
   print("Mergesort");
-  new MergeSort().run();
+  MergeSort().run();
   print("---------------------");
   print("Mergesort Bottom Up");
-  new MergeSortBottomUp().run();
+  MergeSortBottomUp().run();
   print("---------------------");
   print("Selectionsort");
-  new SelectionSort().run();
+  SelectionSort().run();
   print("---------------------");
   print("InsertionSort");
-  new InsertionSort().run();
+  InsertionSort().run();
   print("---------------------");
   print("ShellSort");
-  new ShellSort().run();
+  ShellSort().run();
 }

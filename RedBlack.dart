@@ -1,128 +1,185 @@
 class NodeT<Key extends Comparable, Value> {
-  Key m_key;
-  Value m_val;
-  NodeT<Key, Value> m_left;
-  NodeT<Key, Value> m_right;
-  int m_N = 0;
-  bool m_color = false;
+  late Key mkey;
+  late Value mval;
+  NodeT<Key, Value>? mleft;
+  NodeT<Key, Value>? mright;
+  int mN = 0;
+  bool mcolor = false;
 
-  NodeT(this.m_key, this.m_val, this.m_N, this.m_color) {}
-  
-  String toString() => "${m_key} : ${m_val} : ${m_color}";
+  NodeT(mk, mv, n, mc) {
+    mkey = mk;
+    mval = mv;
+    mN = n;
+    mcolor = mc;
+  }
+    
+  @override String toString() => "$mkey : $mval : $mcolor";
 }
 
 class RedBlackBST<Key extends Comparable, Value> {
-  NodeT m_root;
-  static final bool RED = true;
-  static final bool BLACK = false;
+  NodeT<Key, Value>? mroot;
+  static const bool red = true;
+  static const bool black = false;
 
-  bool isRed(NodeT<Key, Value> x) {
-    if(x == null)
+  bool isRed(NodeT<Key, Value>? x) {
+    if(x == null) {
       return false;
-    return x.m_color == RED;
+    }
+    return x.mcolor == red;
   }
   
-  NodeT<Key, Value> rotateLeft(NodeT<Key, Value> h) {
-    NodeT<Key, Value> x = h.m_right;
-    h.m_right = x.m_left;
-    x.m_left = h;
-    x.m_color = h.m_color;
-    h.m_color = RED;
-    x.m_N = h.m_N;
-    h.m_N = 1 + sizeN(h.m_left) + sizeN(h.m_right);
-    return x;
+  NodeT<Key, Value>? rotateLeft(NodeT<Key, Value>? h) {
+    if(h != null) {
+      NodeT<Key, Value>? x = h.mright;
+      if(x != null) {
+        h.mright = x.mleft;
+        x.mleft = h;
+        x.mcolor = h.mcolor;
+        h.mcolor = red;
+        x.mN = h.mN;
+        h.mN = 1 + sizeN(h.mleft) + sizeN(h.mright);
+        return x;
+      }
+    }
+    return null;
   }
 
-  NodeT<Key, Value> rotateRight(NodeT<Key, Value> h) {
-    NodeT<Key, Value> x = h.m_left;
-    h.m_left = x.m_right;
-    x.m_right = h;
-    x.m_color = h.m_color;
-    h.m_color = RED;
-    x.m_N = h.m_N;
-    h.m_N = 1 + sizeN(h.m_left) + sizeN(h.m_right);
-    return x;
+  NodeT<Key, Value>? rotateRight(NodeT<Key, Value>? h) {
+    if(h != null) {
+      NodeT<Key, Value>? x = h.mleft;
+      if(x != null) {
+        h.mleft = x.mright;
+        x.mright = h;
+        x.mcolor = h.mcolor;
+        h.mcolor = red;
+        x.mN = h.mN;
+        h.mN = 1 + sizeN(h.mleft) + sizeN(h.mright);
+        return x;
+      }
+    }
+    return null;
   }
 
-  void flipColors(NodeT<Key,Value> h) {
-    h.m_color = RED;
-    h.m_left.m_color = BLACK;
-    h.m_right.m_color = BLACK;
+  void flipColors(NodeT<Key,Value>? h) {
+    if(h != null) {
+      h.mcolor = red;
+      NodeT<Key, Value>? ll = h.mleft;
+      if(ll != null) {
+        ll.mcolor = black;
+      }
+      NodeT<Key, Value>? rr = h.mright;
+      if(rr != null) {
+        rr.mcolor = black;
+      }
+    }
   }
   
-  int size() => sizeN(m_root);
+  int size() => sizeN(mroot);
 
-  int sizeN(NodeT<Key, Value> x) {
-    if(x == null) 
+  int sizeN(NodeT<Key, Value>? x) {
+    if(x == null) {
       return 0;  
-    else
-      return x.m_N;
+    }
+    else {
+      return x.mN;
+    }
   }
   
   void put(Key key, Value val) {
-    m_root = putN(m_root, key, val);
-    m_root.m_color = BLACK;
+    NodeT<Key, Value>? mr = putN(mroot, key, val);
+    if(mr != null) {
+      mr.mcolor = black;
+      mroot = mr;
+    }
   }
 
-  NodeT<Key, Value> putN(NodeT<Key, Value> h, Key key, Value val) {
-    if(h == null)
-      return new NodeT(key, val, 1, RED);
-    int cmp = key.compareTo(h.m_key);
-    if(cmp < 0)
-      h.m_left = putN(h.m_left, key, val);
-    else if(cmp > 0)
-      h.m_right = putN(h.m_right, key, val);
-    else
-      h.m_val = val;
-
-    if(isRed(h.m_right) && !isRed(h.m_left)) 
-      h = rotateLeft(h);
-    if(isRed(h.m_left) && isRed(h.m_left.m_left)) 
-      h = rotateRight(h);
-    if(isRed(h.m_left) && isRed(h.m_right))
-      flipColors(h);
+  NodeT<Key, Value>? putN(NodeT<Key, Value>? h, Key key, Value val) {
     
-    h.m_N = sizeN(h.m_left) + sizeN(h.m_right) + 1;
+    if(h == null) {
+      NodeT<Key, Value> test = NodeT(key, val, 1, red);
+      print(test.toString());
+      return test;
+    }
+    
+    int cmp = key.compareTo(h.mkey);
+    
+    if(cmp < 0) {
+      h.mleft = putN(h.mleft, key, val);
+    } else if(cmp > 0) {
+      h.mright = putN(h.mright, key, val);
+    } else {
+      h.mval = val;
+    }
+
+    if(isRed(h.mright) && !isRed(h.mleft)) {
+      h = rotateLeft(h);
+    }
+    
+    if(h != null) {
+      NodeT<Key, Value>? ll = h.mleft;
+      if(ll != null) {
+        NodeT<Key, Value>? lll = ll.mleft;
+        if(lll != null) {
+          if(isRed(ll) && isRed(lll)) {
+            h = rotateRight(h);
+          }
+        }
+        NodeT<Key, Value>? rrr = ll.mright;
+        if(rrr != null) {
+          if(isRed(ll) && isRed(rrr)) {
+            flipColors(h);
+          }
+        }
+      }
+    }
+       
+    if(h != null) {
+      h.mN = sizeN(h.mleft) + sizeN(h.mright) + 1;
+    }
     return h;
   }
 
-  Value fetch(Key key) => fetchN(m_root, key);
+  Value? fetch(Key key) => fetchN(mroot, key);
 
-  Value fetchN(NodeT<Key, Value> x, Key key) {
-    if(x == null)
+  Value? fetchN(NodeT<Key, Value>? x, Key key) {
+    if(x == null) {
       return null;
-    int cmp = key.compareTo(x.m_key);
-    if(cmp < 0)
-      return fetchN(x.m_left, key);
-    else if (cmp > 0)
-      return fetchN(x.m_right, key);
-    else
-      return x.m_val;
+    }
+    int cmp = key.compareTo(x.mkey);
+    if(cmp < 0) {
+      return fetchN(x.mleft, key);
+    } else if (cmp > 0) {
+      return fetchN(x.mright, key);
+    } else {
+      return x.mval;
+    }
   }
 
-  print_bst() => print_bstN(m_root);
+  void printbst() => printbstN(mroot);
   
-  print_bstN(NodeT<Key, Value> x) {
+  void printbstN(NodeT<Key, Value>? x) {
     if(x != null) {
       print(x.toString());
-      if(x.m_left != null)
-        print(x.m_left.toString());
-      else
+      if(x.mleft != null) {
+        print(x.mleft.toString());
+      } else {
         print("null");
-      if(x.m_right != null)
-        print(x.m_right.toString());
-      else
+      }
+      if(x.mright != null) {
+        print(x.mright.toString());
+      } else {
         print("null");
+      }
       print("--");
-      print_bstN(x.m_left);      
-      print_bstN(x.m_right);  
+      printbstN(x.mleft);      
+      printbstN(x.mright);  
     }
   }
 }
 
 void main() {
   print("red black");
-  RedBlackBST<String, int> bst = new RedBlackBST<String, int>();
+  RedBlackBST<String, int> bst = RedBlackBST<String, int>();
   bst.put("a", 0);
   bst.put("b", 1);
   bst.put("c", 2);
@@ -131,6 +188,5 @@ void main() {
   bst.put("f", 5);
   bst.put("g", 6);
   
-  bst.print_bst();
+  bst.printbst();
 }
-
