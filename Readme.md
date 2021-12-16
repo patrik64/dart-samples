@@ -12,4 +12,4 @@ you can also try them online:
 - NFA - https://dartpad.dartlang.org/43c20be7936f2f31f15ec3da4e84377f
 - Prim - https://dartpad.dartlang.org/9d08e279b7dbf85f2356967da1b6b050
 - RedBlack - https://dartpad.dartlang.org/34950cff559a817b0fdc64b2fa727b98
-- Sort - https://dartpad.dartlang.org/a65dc361111bd6476b05872305547eae
+- Sort - https://dartpad.dev/?id=0a693b701a32f03b132dcb1d0c92e2a5
