@@ -2,45 +2,42 @@
 
 import 'dart:collection';
 
-class Digraph
-{
-  int m_V;
-  int m_E;
-  List<List<int>> m_Adj;
+class Digraph {
+  late int mV;
+  late int mE;
+  List<List<int>> mAdj = [];
 
-  Digraph(this.m_V){
-    this.m_E = 0;
-    this.m_Adj = new List<List<int>>();
-    for(int i = 0; i < this.m_V; i++){
-      this.m_Adj.add(new List<int>());
-    }
+  Digraph(v) {
+    mV = v;
+    mE = 0;
+    mAdj = List.generate(mV, (i) => []);
   }
 
-  void addEdge(int v, int w){
-    this.m_Adj[v].add(w);
-    this.m_E++;
+  void addEdge(int v, int w) {
+    mAdj[v].add(w);
+    mE++;
   }
 
-  List<int> adj(int v){
-    return this.m_Adj[v];
+  List<int> adj(int v) {
+    return mAdj[v];
   }
 
-  Digraph reverse(){
-    Digraph r = new Digraph(this.m_V);
-    for(int v = 0; v < this.m_V; v++){
-      for(int w in this.m_Adj[v]){
+  Digraph reverse() {
+    Digraph r = Digraph(mV);
+    for(int v = 0; v < mV; v++){
+      for(int w in mAdj[v]){
         r.addEdge(w, v);
       }
     }
     return r;
  }
 
-  void print_graph(){
-    String str = "Number of vertices : ${this.m_V.toString()}\n";
-    str += "Number of edges : ${this.m_E.toString()}\n";
-    for(int i = 0; i < this.m_Adj.length; i++){
+  void printGraph() {
+    String str = "Number of vertices : ${mV.toString()}\n";
+    str += "Number of edges : ${mE.toString()}\n";
+    for(int i = 0; i < mAdj.length; i++){
       str += "${i.toString()} ->  ";
-      for(int v in this.m_Adj[i]){
+      for(int v in mAdj[i]){
         str += "${v.toString()}, ";
       }
       str = str.substring(0, str.length - 2);
@@ -50,35 +47,37 @@ class Digraph
   }
 }
 
-class DirectedDFS
-{
-  List<bool> m_marked;
+class DirectedDFS {
 
-  DirectedDFS(Digraph g, int s){
-    m_marked = new List<bool>.filled(g.m_V, false);
-    m_marked.forEach((e) => e = true);
+  late List<bool> mMarked;
+
+  DirectedDFS(Digraph g, int s) {
+    mMarked = List<bool>.filled(g.mV, false);
     dfs(g, s);
   }
-
+  
   DirectedDFS.a(Digraph g, List<int> sources) {
-    this.m_marked = new List<bool>.filled(g.m_V, false);
-    this.m_marked.forEach((e) => e = false);
-    for(int s in sources)
-      if(!this.m_marked[s])
+    mMarked = List<bool>.filled(g.mV, false);
+    for(int s in sources) {
+      if(!mMarked[s]) {
         dfs(g, s);
+      }
+    }
   }
 
-  void dfs(Digraph g, int v){
-    this.m_marked[v] = true;
-    for(int i in g.adj(v))
-      if(!this.m_marked[i])
+  void dfs(Digraph g, int v) {
+    mMarked[v] = true;
+    for(int i in g.adj(v)) {
+      if(!mMarked[i]) {
         dfs(g, i);
+      }
+    }
   }
 
-  void print_reachable(int v){
+  void printReachable(int v) {
     String str = "Reach from vertex ${v.toString()}  : ";
-    for(int i  = 0; i < this.m_marked.length; i++){
-      if(this.m_marked[i]){
+    for(int i  = 0; i < mMarked.length; i++){
+      if(mMarked[i]){
         str += i.toStringAsFixed(0);
         str += " - ";
       }
@@ -89,74 +88,81 @@ class DirectedDFS
 }
 
 class NFA {
-  Digraph m_g;
-  String m_regexp;
-  int m_M = 0;
+  late Digraph mG;
+  String mRegexp = '';
+  int mM = 0;
 
-  NFA(this.m_regexp) {
-    m_M = this.m_regexp.length;
-    Queue<int> ops = new Queue<int>();
-    m_g = new Digraph(m_M+1);
-    for(int i = 0; i < m_M; i++) {
+  NFA(regexp) {
+    mRegexp =regexp;
+    mM = mRegexp.length;
+    Queue<int> ops = Queue<int>();
+    mG = Digraph(mM+1);
+    for(int i = 0; i < mM; i++) {
       int lp = i;
-      if(m_regexp[i] == '(' || m_regexp[i] == '|')
+      if(mRegexp[i] == '(' || mRegexp[i] == '|') {
         ops.add(i);
-      else if(m_regexp[i] == ')') {
+      } else if(mRegexp[i] == ')') {
         int or = ops.removeLast();
-        if(m_regexp[or] == '|') {
+        if(mRegexp[or] == '|') {
           lp = ops.removeLast();
-          m_g.addEdge(lp, or+1);
-          m_g.addEdge(or, i);
-        }
-        else if (m_regexp[or] == '(')
+          mG.addEdge(lp, or+1);
+          mG.addEdge(or, i);
+        } else if (mRegexp[or] == '(') {
           lp = or;
-        else
-          throw new Exception("shouldnt came here!!!");
+        } else {
+          throw Exception("shouldnt came here!!!");
+        }
       }
 
       //lookahead
-      if( i < (m_M - 1) && m_regexp[i+1] == '*') {
-        m_g.addEdge(lp, i+1);
-        m_g.addEdge(i+1, lp);
+      if( i < (mM - 1) && mRegexp[i+1] == '*') {
+        mG.addEdge(lp, i+1);
+        mG.addEdge(i+1, lp);
       }
-      if( i < (m_M - 1) && m_regexp[i+1] == '+') {
-        m_g.addEdge(i+1, lp);
+      if( i < (mM - 1) && mRegexp[i+1] == '+') {
+        mG.addEdge(i+1, lp);
       }
-      if(m_regexp[i] == '(' ||
-         m_regexp[i] == '*' ||
-         m_regexp[i] == '+' || 
-         m_regexp[i] == ')')
-        m_g.addEdge(i, i+1);
+      if(mRegexp[i] == '(' ||
+         mRegexp[i] == '*' ||
+         mRegexp[i] == '+' || 
+         mRegexp[i] == ')') {
+        mG.addEdge(i, i+1);
+      }
     }
   }
 
   bool match(String txt) {
-    DirectedDFS dfs = new DirectedDFS(m_g, 0);
-    List<int> pc = new List<int>();
-    for(int v = 0; v < m_g.m_V; v++)
-      if(dfs.m_marked[v])
+    DirectedDFS dfs = DirectedDFS(mG, 0);
+    List<int> pc = [];
+    for(int v = 0; v < mG.mV; v++) {
+      if(dfs.mMarked[v]) {
         pc.add(v);
+      }
+    }
 
     //compute possible states for txt[i+1]
     for(int i = 0; i < txt.length; i++) {
-      List<int> regexp_match = new List<int>();
+      List<int> regexpMatch = [];
       for(int v in pc) {
-        if(v == m_M) 
-          continue;
-        if((m_regexp[v] == txt[i]) || m_regexp[v] == '.')
-          regexp_match.add(v+1);
+        if(v == mM) { continue; }
+        if((mRegexp[v] == txt[i]) || mRegexp[v] == '.') {
+          regexpMatch.add(v+1);
+        }
       }
-      dfs = new DirectedDFS.a(m_g, regexp_match);
-      pc = new List<int>();
-      for(int v = 0; v < m_g.m_V; v++)
-        if(dfs.m_marked[v])
+      dfs = DirectedDFS.a(mG, regexpMatch);
+      pc = [];
+      for(int v = 0; v < mG.mV; v++) {
+        if(dfs.mMarked[v]) {
           pc.add(v);
+        }
+      }
     }
 
-    
-    for(int v in pc) 
-      if(v == m_M)
+    for(int v in pc) {
+      if(v == mM) {
         return true;
+      }
+    }
     return false; 
   }
 }
@@ -164,13 +170,14 @@ class NFA {
 void main() {
   String regexp = "(A*B|AC)+D";
   String txt = "BD";
-  NFA nfa = new NFA(regexp);
+  NFA nfa = NFA(regexp);
   
 
-  print("regexp : ${regexp}");
-  print("text : ${txt}");
-  if(nfa.match(txt))
+  print("regexp : $regexp");
+  print("text : $txt");
+  if(nfa.match(txt)) {
     print("text matched!!!");
-  else
+  } else {
     print("No match!");
+  }
 }
