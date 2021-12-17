@@ -1,83 +1,96 @@
-class NodeT<Key, Value>
-{
-  Key m_key;
-  Value m_val;
-  NodeT m_next;
+class NodeT<Key, Value> {
+  late Key mKey;
+  late Value mVal;
+  late NodeT<Key, Value>? mNext;
   
-  NodeT(this.m_key, this.m_val, this.m_next){}
+  NodeT(k, v, n) {
+    mKey = k;
+    mVal = v;
+    mNext = n;
+  }
 }
 
-class SymbolTable<Key extends Comparable, Value>
-{
-    NodeT<Key, Value> m_first;
+class SymbolTable<Key extends Comparable, Value> {
+    NodeT<Key, Value>? mFirst;
     
-    Value fetch(Key key){
-      for(NodeT<Key, Value> x = this.m_first; x != null; x = x.m_next)
-        if(key.compareTo(x.m_key) == 0)
-          return x.m_val;
+    Value? fetch(Key key) {
+      for(NodeT<Key, Value>? x = mFirst; x != null; x = x.mNext) {
+        if(key.compareTo(x.mKey) == 0) {
+          return x.mVal;
+        }
+      }
       return null;
     }
     
-    void put(Key key, Value val){
-      for(NodeT<Key, Value> x = this.m_first; x != null; x = x.m_next){
-        if(key.compareTo(x.m_key) == 0){
-          x.m_val = val;
+    void put(Key key, Value val) {
+      for(NodeT<Key, Value>? x = mFirst; x != null; x = x.mNext){
+        if(key.compareTo(x.mKey) == 0) {
+          x.mVal = val;
           return;
         }
       }
-      m_first = new NodeT(key, val, this.m_first);
+      mFirst = NodeT(key, val, mFirst);
     }
     
-    List<Key> keys(){
-      List<Key> ret = new List<Key>();
-      for(NodeT<Key, Value> x = this.m_first; x != null; x = x.m_next){
-        ret.add(x.m_key);
+    List<Key> keys() {
+      List<Key> ret = [];
+      for(NodeT<Key, Value>? x = mFirst; x != null; x = x.mNext){
+        ret.add(x.mKey);
       }
       return ret;
     }
 }
 
 //Hash Table implementation with separate chaining
-class HashTableSC<Key extends Comparable, Value> 
-{
-  int m_N = 0;
-  int m_M = 0;
-  List<SymbolTable<Key, Value>> m_st;
+class HashTableSC<Key extends Comparable, Value> {
+  int mN = 0;
+  int mM = 0;
+  late List<SymbolTable<Key, Value>?> mST;
   
-  HashTableSC(this.m_M) {
-    this.m_st = new List<SymbolTable<Key, Value>>(this.m_M);
-    for(int i = 0; i < this.m_st.length; i++) {
-      SymbolTable<Key, Value> st = new SymbolTable<Key, Value>();
-      m_st[i] = st;
+  HashTableSC(mM) {
+    mST = List<SymbolTable<Key, Value>?>.filled(mM, null);
+    for(int i = 0; i < mST.length; i++) {
+      SymbolTable<Key, Value> st = SymbolTable<Key, Value>();
+      mST[i] = st;
     } 
   }
     
   int hash(Key key) {
-    int ret = key.hashCode % this.m_M;
+    int ret = key.hashCode % mM;
     return ret;
   }
   
-  Value fetch(Key key){
-    return this.m_st[hash(key)].fetch(key);
+  Value? fetch(Key key) {
+    SymbolTable<Key, Value>? test = mST[hash(key)];
+    if(test != null) {
+      return test.fetch(key);
+    }
   }
   
-  void put(Key key, Value val){
-    this.m_st[hash(key)].put(key, val);
-    m_N++;
+  void put(Key key, Value val) {
+    SymbolTable<Key, Value>? test = mST[hash(key)];
+    if(test != null) {
+      test.put(key, val);
+    }
+    mN++;
   }
   
-  List<Key> keys(){
-    List<Key> ret = new List<Key>();
-    for( SymbolTable<Key, Value> st in this.m_st)
-      for( Key k in st.keys())
-        ret.add(k);
+  List<Key> keys() {
+    List<Key> ret = [];
+    for( SymbolTable<Key, Value>? st in mST){
+      if(st != null) {
+        for( Key k in st.keys()) {
+          ret.add(k);
+        }
+      }
+    }
     return ret;
   }
   
-  void print_hashtable() {
+  void printHashtable() {
     String str = "Hash Table with separate chaining : /n";
-    for(Key k in this.keys()){
-      Value val = this.fetch(k);
+    for(Key k in keys()){
+      Value? val = fetch(k);
       str += k.toString();
       str += " - ";
       str += val.toString();
@@ -88,88 +101,98 @@ class HashTableSC<Key extends Comparable, Value>
 }
 
 //Hash Table implementation with linear probing
-class HashTableLP<Key extends Comparable, Value>
-{
-  int m_N = 0; //number of elements in the table
-  int m_M = 16; //initial table size
-  List<Key> m_keys;
-  List<Value> m_vals;
+class HashTableLP<Key extends Comparable, Value> {
   
-  HashTableLP(this.m_M){
-    this.m_keys = new List<Key>(this.m_M);
-    for(int i = 0; i < this.m_M; i++)
-      m_keys[i] = null;
-    this.m_vals = new List<Value>(this.m_M);
+  int mN = 0; //number of elements in the table
+  int mM = 16; //initial table size
+  late List<Key?> mKeys;
+  late List<Value?> mVals;
+  
+  HashTableLP(mM) {
+    mKeys = List<Key?>.filled(mM, null);
+    mVals = List<Value?>.filled(mM, null);
   }
   
-  int hash(Key key){
-    return key.hashCode % this.m_M;
+  int hash(Key? key) {
+    return (key.hashCode % mM);
   }
   
-  void put(Key key, Value val){
-    if(m_N >= (m_M~/2))
-      resize(2*m_M);
+  void put(Key? key, Value? val) {
+    if(mN >= (mM~/2)) {
+      resize(2*mM);
+    }
     
     int i = hash(key);
-    while(this.m_keys[i] != null){
-      if(m_keys[i].compareTo(key) == 0){
-        m_vals[i] = val;
-        return;
+    while(mKeys[i] != null){
+      Key? test = mKeys[i];
+      if(test != null) {
+        if(test.compareTo(key) == 0) {
+          mVals[i] = val;
+          return;
+        }
       }
-      i = (i+1) % this.m_M; 
+      i = (i+1) % mM; 
     }
-    m_keys[i] = key;
-    m_vals[i] = val;
-    m_N++;
+    mKeys[i] = key;
+    mVals[i] = val;
+    mN++;
   }
   
-  Value fetch(Key key){
-    for(int i = hash(key); m_keys[i] != null; i = (i+1) % m_M)
-      if(m_keys[i].compareTo(key) == 0)
-        return m_vals[i];
-    
+  Value? fetch(Key key) {
+    for(int i = hash(key); mKeys[i] != null; i = (i+1) % mM) {
+      Key? test = mKeys[i];
+      if(test != null) {
+        if(test.compareTo(key) == 0) {
+          return mVals[i];
+        }
+      }
+    }
     return null;
   }
   
-  void delete(Key key){
+  void delete(Key key) {
     if(fetch(key) == null) return;
     int i = hash(key);
-    while(key.compareTo(this.m_keys[i]) != 0)
-      i = (i+1) % m_M;
-    this.m_keys[i] = null;
-    this.m_vals[i] = null;
-    i = (i+1) % m_M;
-    while(this.m_keys[i] != null){
-      Key _k = this.m_keys[i];
-      Value _v = this.m_vals[i];
-      m_keys[i] = null;
-      m_vals[i] = null;
-      m_N--;
-      put(_k, _v);
-      i = (i+1) % m_M;
+    while(key.compareTo(mKeys[i]) != 0) {
+      i = (i+1) % mM;
     }
-    m_N--;
-    if((m_N > 0) && (m_N <= (m_M~/8)))
-      resize(m_M~/2);
+    mKeys[i] = null;
+    mVals[i] = null;
+    i = (i+1) % mM;
+    while(mKeys[i] != null){
+      Key? _k = mKeys[i];
+      Value? _v = mVals[i];
+      mKeys[i] = null;
+      mVals[i] = null;
+      mN--;
+      put(_k, _v);
+      i = (i+1) % mM;
+    }
+    mN--;
+    if((mN > 0) && (mN <= (mM~/8))){
+      resize(mM~/2);
+    }
   }
   
-  void resize(int cap){
+  void resize(int cap) {
     HashTableLP<Key, Value> ht;
-    ht = new HashTableLP<Key, Value>(cap);
-    for(int i = 0; i < m_M; i++)
-      if(m_keys[i] != null)
-        ht.put(m_keys[i], m_vals[i]);
+    ht = HashTableLP<Key, Value>(cap);
+    for(int i = 0; i < mM; i++){
+      if(mKeys[i] != null){
+        ht.put(mKeys[i], mVals[i]);
+      }
+    }
     
-    m_keys = ht.m_keys;
-    m_vals = ht.m_vals;
-    m_M = ht.m_M;
+    mKeys = ht.mKeys;
+    mVals = ht.mVals;
+    mM = ht.mM;
   }
   
-  void print_hashtable() {
+  void printHashtable() {
     String str = "Hash Table with linear probing : \n";
-    for(Key k in this.m_keys){
+    for(Key? k in mKeys){
       if(k != null){
-        Value val = this.fetch(k);
+        Value? val = fetch(k);
         str += k.toString();
         str += " - ";
         str += val.toString();
@@ -181,7 +204,7 @@ class HashTableLP<Key extends Comparable, Value>
 }
 
 void main() {
-  HashTableLP<String, int> ht = new HashTableLP<String, int>(16);
+  HashTableLP<String, int> ht = HashTableLP<String, int>(16);
   ht.put("a", 1);
   ht.put("b", 2);
   ht.put("c", 3);
@@ -205,7 +228,7 @@ void main() {
   ht.put("u", 21);
   
   print("\nbefore delete:\n");
-  ht.print_hashtable();
+  ht.printHashtable();
   
   ht.delete("a");
   ht.delete("b");
@@ -229,6 +252,6 @@ void main() {
   ht.delete("u");
   ht.delete("v");
 
-  print("\after delete:\n");  
-  ht.print_hashtable();
+  print("\nafter delete:\n");  
+  ht.printHashtable();
 }

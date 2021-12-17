@@ -16,8 +16,7 @@ class Sort {
     a[j] = t; 
   }
   
-  String showList(List<int> a) 
-  {
+  String showList(List<int> a) {
     String s = "";
     for (int i = 0; i < a.length; i++)
     {
@@ -59,7 +58,7 @@ class Sort {
   }
 }
 
-class QuickSort extends Sort{
+class QuickSort extends Sort {
   
   @override void sort(List<int> a) {
     quicksort(a, 0, a.length - 1);
@@ -95,7 +94,7 @@ class QuickSort extends Sort{
   }
 }
 
-class QuickSort3 extends Sort{
+class QuickSort3 extends Sort {
   
   @override void sort(List<int> a) {
     quicksort(a, 0, a.length - 1);
@@ -160,7 +159,7 @@ class MergeSort extends Sort{
   }
 }
 
-class MergeSortBottomUp extends Sort{
+class MergeSortBottomUp extends Sort {
   List<int> maux = [];
   
   @override void sort(List<int> a){

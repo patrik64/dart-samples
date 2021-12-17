@@ -1,27 +1,26 @@
 import 'dart:collection';
 
-class Digraph
-{
+class Digraph {
   late int mV;
   late int mE;
   List<List<int>> mAdj = [];
 
-  Digraph(v){
+  Digraph(v) {
     mV = v;
     mE = 0;
     mAdj = List.generate(mV, (i) => []);
   }
 
-  void addEdge(int v, int w){
+  void addEdge(int v, int w) {
     mAdj[v].add(w);
     mE++;
   }
 
-  List<int> adj(int v){
+  List<int> adj(int v) {
     return mAdj[v];
   }
 
-  Digraph reverse(){
+  Digraph reverse() {
     Digraph r = Digraph(mV);
     for(int v = 0; v < mV; v++){
       for(int w in mAdj[v]){
@@ -31,7 +30,7 @@ class Digraph
     return r;
  }
 
-  void printGraph(){
+  void printGraph() {
     String str = "Number of vertices : ${mV.toString()}\n";
     str += "Number of edges : ${mE.toString()}\n";
     for(int i = 0; i < mAdj.length; i++){
@@ -46,16 +45,16 @@ class Digraph
   }
 }
 
-class DirectedDFS
-{
+class DirectedDFS {
+
   late List<bool> mMarked;
 
-  DirectedDFS(Digraph g, int s){
+  DirectedDFS(Digraph g, int s) {
     mMarked = List<bool>.filled(g.mV, false);
     dfs(g, s);
   }
 
-  void dfs(Digraph g, int v){
+  void dfs(Digraph g, int v) {
     mMarked[v] = true;
     for(int i in g.adj(v)) {
       if(!mMarked[i]) {
@@ -64,7 +63,7 @@ class DirectedDFS
     }
   }
 
-  void printReachable(int v){
+  void printReachable(int v) {
     String str = "Reach from vertex ${v.toString()}  : ";
     for(int i  = 0; i < mMarked.length; i++){
       if(mMarked[i]){
@@ -77,14 +76,14 @@ class DirectedDFS
   }
 }
 
-class DirectedCycle
-{
+class DirectedCycle {
+  
   late List<bool> mMarked;
   late List<int> mEdgeTo;
   late Queue<int> mCycle;
   late List<bool> mOnStack;
 
-  DirectedCycle(Digraph g){
+  DirectedCycle(Digraph g) {
     mOnStack = List<bool>.filled(g.mV, false);
     mMarked = List<bool>.filled(g.mV, false);
     mEdgeTo = List<int>.filled(g.mV, -1);
@@ -96,7 +95,7 @@ class DirectedCycle
     }
   }
 
-  void dfs(Digraph g, int v){
+  void dfs(Digraph g, int v) {
     mOnStack[v] = true;
     mMarked[v] = true;
     for( int w in g.adj(v)){
@@ -120,7 +119,7 @@ class DirectedCycle
 
   bool hasCycle() => (mCycle.isNotEmpty);
 
-  void printCycles(){
+  void printCycles() {
     String str = "Cycles : ";
     if(hasCycle()){
       while(mCycle.isNotEmpty){
@@ -136,8 +135,8 @@ class DirectedCycle
 }
 
 
-class DirectedDepthFirstPaths
-{
+class DirectedDepthFirstPaths {
+  
   late List<bool> mMarked; 
   late List<int> mEdgeTo; //list of indices to connected vertices
   late int mSource;       //source vertex
@@ -190,20 +189,20 @@ class DirectedDepthFirstPaths
   }
 }
 
-class DirectedBreadthFirstPaths
-{
+class DirectedBreadthFirstPaths {
+  
   late List<bool> mMarked;
   late List<int> mEdgeTo;
   late int mSource;
 
-  DirectedBreadthFirstPaths(Digraph g, s){
+  DirectedBreadthFirstPaths(Digraph g, s) {
     mSource = s;
     mMarked = List<bool>.filled(g.mV, false);
     mEdgeTo = List<int>.filled(g.mV, -1);
     bfs(g, mSource);
   }
 
-  void bfs(Digraph g, int s){
+  void bfs(Digraph g, int s) {
     Queue<int> queue = Queue<int>();
     mMarked[s] = true;
     queue.add(s);
@@ -219,11 +218,11 @@ class DirectedBreadthFirstPaths
     }
   }
 
-  bool hasPathTo(int v){
+  bool hasPathTo(int v) {
     return mMarked[v];
   }
 
-  List<int>? pathTo(int v){
+  List<int>? pathTo(int v) {
     if(!hasPathTo(v)) return null;
     List<int> path = [];
     for(int x = v; x != mSource; x = mEdgeTo[x]){
@@ -233,7 +232,7 @@ class DirectedBreadthFirstPaths
     return path;
   }
   
-  void printPathTo(int v){
+  void printPathTo(int v) {
     String str = "Breadth first path from vertex ${mSource.toString()} : ";
     if(hasPathTo(v)){
       List<int>? x = pathTo(v);
@@ -250,8 +249,8 @@ class DirectedBreadthFirstPaths
   }
 }
 
-class DepthFirstOrder
-{
+class DepthFirstOrder {
+
   late List<bool> mMarked;
   late Queue<int> mPre;
   late Queue<int> mPost;
@@ -270,7 +269,7 @@ class DepthFirstOrder
     }
   }
   
-  void dfs(Digraph g, int v){
+  void dfs(Digraph g, int v) {
     mPre.add(v);
     mMarked[v] = true;
     for(int w in g.adj(v)){
@@ -283,7 +282,7 @@ class DepthFirstOrder
     mReversePost.addLast(v);
   }
   
-  void printOrder(){
+  void printOrder() {
     String str = "Pre : ";
     while(mPre.isNotEmpty){
       int i = mPre.removeFirst();
@@ -307,7 +306,7 @@ class DepthFirstOrder
   }
 }
 
-class TopologicalOrder{
+class TopologicalOrder {
   Queue<int> mOrder = Queue<int>();
   
   TopologicalOrder(Digraph g){
@@ -321,8 +320,7 @@ class TopologicalOrder{
   bool isDAG() => mOrder.isNotEmpty;
 }
 
-void main()
-{
+void main() {
   Digraph g = Digraph(13);
   g.addEdge(0, 1);
   g.addEdge(0, 5); 

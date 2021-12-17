@@ -12,7 +12,7 @@ class NodeT<Key extends Comparable, Value> {
 class BST<Key extends Comparable, Value> {
   NodeT<Key, Value>? mroot;
   
-  int size(){
+  int size() {
     return sizeNode(mroot);
   }
 
@@ -39,7 +39,7 @@ class BST<Key extends Comparable, Value> {
     return null as Value;
   }
 
-  void put(Key key, Value val){
+  void put(Key key, Value val) {
     mroot = putNode(mroot, key, val);
   }
 
