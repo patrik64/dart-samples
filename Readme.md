@@ -10,6 +10,6 @@ you can also try them online:
 - Graph - https://dartpad.dev/25a414dc0674c892a32b85637e0248fb
 - HashTable - https://dartpad.dev/b19b0fe536b3dc5f8b85a1394b0950b8
 - NFA - https://dartpad.dartlang.org/43c20be7936f2f31f15ec3da4e84377f
-- Prim - https://dartpad.dartlang.org/9d08e279b7dbf85f2356967da1b6b050
+- Prim - https://dartpad.dev/9d08e279b7dbf85f2356967da1b6b050
 - RedBlack - https://dartpad.dev/8932075c98cbd4cb3608c8b4e3eaf9c3
 - Sort - https://dartpad.dev/0a693b701a32f03b132dcb1d0c92e2a5
